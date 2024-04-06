@@ -1,0 +1,57 @@
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* .wrapper {
+    margin: 0 auto;
+    max-width: 1000px;
+} */
+
+.interface {
+    display: flex;
+}
+
+.sidebar {
+    flex: 1;
+    height: 100vh;
+    background-color: gray;
+}
+
+.chat {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #111111;
+}
+
+.chatline {
+    flex: 9;
+}
+
+form {
+    display: flex;
+    flex: 1;
+}
+
+.text {
+    flex: 9;
+}
+
+.submit {
+    flex: 1;
+}
+
+h5 {
+    font-size: 20px;
+    color: #149414;
+    text-align: right;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Main page</title>
+    <script>
+        function clearTextarea() {
+            // Get the textarea element by its id
+            var textarea = document.querySelector(".text");
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            // console.log(event.target)
+            textarea.value = "";
+            fetch('http://stt/post', {
+                method: 'POST',
+                body: formData
+            })
+                // .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    fetchChat();
+                    // Handle the response data as needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            // Clear the textarea value
+        }
+
+        function fetchChat() {
+            fetch('http://stt/get', { insecure: true })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(csvData => {
+                    // Process the CSV data as needed
+                    let chatline = document.querySelector('.chatline');
+                    chatline.innerHTML = "";
+                    let msgs = csvData.split(/;/);
+                    for (const element of msgs) {
+                        if (element.length != 0) {
+                            const el = document.createElement('h5');
+                            el.innerHTML = element;
+                            chatline.append(el)
+                        }
+                    }
+
+                    // console.log(csvData);
+                })
+                .catch(error => {
+                    console.error('Error fetching CSV data:', error);
+                });
+        }
+        fetchChat();
+
+
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="interface">
+            <div class="sidebar"></div>
+            <div class="chat">
+                <div class="chatline">
+                    
+                </div>
+                <form action="/post" method="post" onsubmit="clearTextarea(event)">
+                    <textarea class="text" type="text" name="text"></textarea>
+                    <input class="submit" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
